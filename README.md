@@ -1,87 +1,45 @@
-# OpenCV Face Detection Sample
 
-opencvfacedetection-melvincabatuan created by Classroom for GitHub
+Our app consists of two main features which extend the functionality of "Part-A" as provided by the Instructor (On Touch Color Detection).
 
-This project illustrates OpenCV Face Detection sample in Android Studio.
+### Objective and Applications:
 
-## Prerequisite:
+The main objective of our app is to use the on Touch color detection for practical real time-purposes.  
+(1) Face-detection:													
+(1a) On such purpose could be a adaptive filter effect-as of instagram and other such social media. Our feature differs from the naive filters as in, the filters used are generally limited and controlled by the application designers. In our app, it is possible to create filters on-the-go just by clicking on a color on camera interface, providing virtually a broader range of filters.
 
-1. Download and extract OpenCV 3.0 for Android from http://opencv.org/.
-2. Download and setup Android NDK build tools: http://developer.android.com/ndk/guides/setup.html
-3. Create a new project in Android Studio with "No Activity" and add OpenCV to your project. (Refer to https://github.com/DeLaSalleUniversity-Manila/opencvcamerapreviewsample-melvincabatuan)
+ (1b) Other implementaion of face detector would be changing the color of the face alone keeping remaining portion of the image constant. This is what we actually see in DSLR imaging techniques. In our app, we made a "Avatar"(blue) filter.
 
-## Possible Errors:
+(2) Password/Encryption:
+Other purpose could be using the touch color detection to encrypt/ store the passwords within an image. In general, most of the people use pattern,PIN as passwords, which can be easily hacked. We implemented an idea of such locking implementation using color. Our app has an interface to train, wherein the user is asked to pick random color points from the camera interface or of static colored image with different colors. The touched color, hue, saturations for those  points are stored in a database. When the user, at a later time picks the same colors either from camera interface/static image, they are compared against the database and authenticated. All it requires for the user is to remember the sequence of colors for the password. For better accuracies we stick with static images. 
 
-* OpenCV.mk not found Error 
+### Features:
+Thus the features can be summarized as follows:
+	1) Face detection with real time adaptive filter effect using color detection.
+	2) Face Detection with face-only filter.
+	2) Real time Encrypt/password protect using color detection. 
 
-* Solution:
+## Running the app:
+Run the app:
+ 1. On a phone connected by a USB cable(Recommended).(Or)
+ 2. On a phone by copying apk-debug from the directory \app\build\outputs\apk\apk-debug.apk
+ 	into the phone.
+ 3. Arm v7 Emulator(Very very slow and not recommended). 
+The app doesn't run on the x86 emulator due to jni issues for opencv face detector. We really tried to deal this issue, but given the time we were unable to.(We have to leave Face detection feature to make it compatible with x86 emulator). However, it runs fine on a ARM v7 compatible emulator or a mobile phone.
 
-Modify 'Android.mk' include as follows:
+Note: The app runs on landscape mode only. Face detection does not work in portrait mode.
+		Give the permissions for the app-both for storage and camera in app settings.
 
-```make
-include /path/to/your/OpenCV-android-sdk/sdk/native/jni/OpenCV.mk
-```
-Ex. 
-```make
-LOCAL_PATH := $(call my-dir)
+# Using the app:
+Once the app is installed, you are provided with three buttons feature1,feature2,feature3. Clicking on each button leads to corresponding activity.
+feature1: Point the camera towards a face, now click on any random color you like on the camera interface. The screen turns into that corresponding colored filter.
+Feature2: Point the camera towards a face, you can see that only the face color of the person changes to blue.
+Feature3:   You are provided with series of colored images. 
+			--Click on train, Toast appears, saying select the pattern. Click on any color for 5 times.
+			--CLick on unlock, Select the 5 color patters on the same image. Within 7-8 tries, the databse matches the touched colors, identifies the user and 	    displays a toast-saying whether pattern is matched or not. If the user is matched, the hidden file from the storage appears on the screen. If user is not matched, the file is not opened.
+	
 
-include $(CLEAR_VARS)
+![alt tag](Feature2.png)
 
-#OPENCV_CAMERA_MODULES:=off
-OPENCV_INSTALL_MODULES:=on
-#OPENCV_LIB_TYPE:=SHARED
-
-include /home/cobalt/Android/OpenCV-android-sdk/sdk/native/jni/OpenCV.mk
-
-LOCAL_SRC_FILES  := DetectionBasedTracker_jni.cpp
-LOCAL_C_INCLUDES += $(LOCAL_PATH)
-LOCAL_LDLIBS     += -llog -ldl
-
-LOCAL_MODULE     := detection_based_tracker
-
-include $(BUILD_SHARED_LIBRARY)
-```
-
-## Compile 
-
-Ex.
-```shell
-~/AndroidStudioProjects/OpenCV3-FaceDetection/app/jni$ ndk-build
-[armeabi-v7a] Compile++ thumb: detection_based_tracker <= DetectionBasedTracker_jni.cpp
-[armeabi-v7a] Prebuilt       : libopencv_java3.so <= /home/cobalt/Android/OpenCV-android-sdk/sdk/native/jni/../libs/armeabi-v7a/
-[armeabi-v7a] SharedLibrary  : libdetection_based_tracker.so
-/home/cobalt/Android/adt-bundle-linux-x86-20131030/android-ndk-r10d/toolchains/arm-linux-androideabi-4.8/prebuilt/linux-x86/bin/../lib/gcc/arm-linux-androideabi/4.8/../../../../arm-linux-androideabi/bin/ld: warning: hidden symbol '__aeabi_atexit' in /home/cobalt/Android/adt-bundle-linux-x86-20131030/android-ndk-r10d/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi-v7a/thumb/libgnustl_static.a(atexit_arm.o) is referenced by DSO /home/cobalt/AndroidStudioProjects/OpenCV3-FaceDetection/app/obj/local/armeabi-v7a/libopencv_java3.so
-[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
-[armeabi-v7a] Install        : libopencv_java3.so => libs/armeabi-v7a/libopencv_java3.so
-```
-
-## Accept
-
-To accept the assignment, click the following URL:
-
-https://classroom.github.com/assignment-invitations/f194ffd9123de302e38882178c375ccc
-
-## Sample Solution:
-
-https://github.com/DeLaSalleUniversity-Manila/opencvfacedetection-melvincabatuan
-
-## Submission Procedure with Git: 
-
-```shell
-$ cd /path/to/your/android/app/
-$ git init
-$ git add –all
-$ git commit -m "your message, e.x. Assignment 1 submission"
-$ git remote add origin <Assignment link copied from assignment github, e.x. https://github.com/DeLaSalleUniversity-Manila/secondactivityassignment-melvincabatuan.git>
-$ git push -u origin master
-<then Enter Username and Password>
-```
-
-
-## Screenshot:
-
-![alt tag](https://github.com/DeLaSalleUniversity-Manila/opencvfacedetection-melvincabatuan/blob/master/device-2015-11-02-130507.png)
-
-![alt tag](https://github.com/DeLaSalleUniversity-Manila/opencvfacedetection-melvincabatuan/blob/master/device-2015-11-02-130917.png)
+![alt tag](2017_04_28_06_47_03.png)
 
 "*If human beings had genuine courage, they'd wear their costumes every day of the year, not just on Halloween.*" - Douglas Coupland
